@@ -175,10 +175,13 @@ function getCountWeekendsInMonth(month, year) {
  * Date(2024, 0, 31) => 5
  * Date(2024, 1, 23) => 8
  */
-function getWeekNumberByDate(/* date */) {
-  throw new Error('Not implemented');
+function getWeekNumberByDate(date) {
+  const currentDate = new Date(date);
+  const startDate = new Date(currentDate.getFullYear(), 0, 1);
+  const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+  const weekNumber = Math.ceil((days + 1) / 7);
+  return weekNumber;
 }
-
 /**
  * Returns the date of the next Friday the 13th from a given date.
  * Friday the 13th is considered an unlucky day in some cultures.
@@ -190,9 +193,19 @@ function getWeekNumberByDate(/* date */) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* date */) {
+function getNextFridayThe13th(/* year, month, day */) {
   throw new Error('Not implemented');
 }
+// function getNextFridayThe13th(year, month, day) {
+//   const date = new Date(year, month - 1, day);
+
+//   while (date.getDay() !== 5) {
+//     date.setMonth(date.getMonth() + 1, 13);
+//   }
+//   return date.toLocaleDateString('ru-RU');
+// }
+
+// console.log(getNextFridayThe13th(2025, 6, 14));
 
 /**
  * Returns the quarter of the year for a given date.
@@ -205,10 +218,10 @@ function getNextFridayThe13th(/* date */) {
  * Date(2024, 5, 1) => 2
  * Date(2024, 10, 10) => 4
  */
-function getQuarter(/* date */) {
-  throw new Error('Not implemented');
+function getQuarter(...date) {
+  const currentMonth = new Date(...date);
+  return Math.trunc(currentMonth.getMonth() / 3) + 1;
 }
-
 /**
  * Generates an employee's work schedule within a specified date range, based on a pattern of working and off days.
  * The start and end dates of the period are inclusive.
