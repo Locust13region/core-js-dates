@@ -240,10 +240,28 @@ function getQuarter(...date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
-  throw new Error('Not implemented');
-}
+function getWorkSchedule(period, countWorkDays, countOffDays) {
+  const cal = [];
+  const start = new Date(period.start.split('-').reverse().join('-'));
+  const end = new Date(period.end.split('-').reverse().join('-'));
 
+  function dateFormat(date) {
+    return date.toLocaleDateString('nl-NL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  }
+  while (start <= end) {
+    for (let i = 0; i < countWorkDays; i += 1) {
+      if (start > end) return cal;
+      cal.push(dateFormat(new Date(start)));
+      start.setDate(start.getDate() + 1);
+    }
+    start.setDate(start.getDate() + countOffDays);
+  }
+  return cal;
+}
 /**
  * Determines whether the year in the provided date is a leap year.
  * A leap year is a year divisible by 4, but not by 100, unless it is also divisible by 400.
@@ -256,10 +274,11 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  * Date(2022, 2, 1) => false
  * Date(2020, 2, 1) => true
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const currentYear = date.getFullYear();
+  const lastFebDay = new Date(currentYear, 2, 0).getDate();
+  return lastFebDay === 29;
 }
-
 module.exports = {
   dateToTimestamp,
   getTime,
