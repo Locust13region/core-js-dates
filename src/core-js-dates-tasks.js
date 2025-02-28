@@ -193,20 +193,19 @@ function getWeekNumberByDate(date) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* year, month, day */) {
-  throw new Error('Not implemented');
+function getNextFridayThe13th(date) {
+  const startDate = new Date(date);
+  if (startDate.getDate() > 13) {
+    startDate.setMonth(startDate.getMonth() + 1);
+    startDate.setDate(13);
+  } else {
+    startDate.setDate(13);
+  }
+  while (startDate.getDay() !== 5) {
+    startDate.setMonth(startDate.getMonth() + 1, 13);
+  }
+  return startDate;
 }
-// function getNextFridayThe13th(year, month, day) {
-//   const date = new Date(year, month - 1, day);
-
-//   while (date.getDay() !== 5) {
-//     date.setMonth(date.getMonth() + 1, 13);
-//   }
-//   return date.toLocaleDateString('ru-RU');
-// }
-
-// console.log(getNextFridayThe13th(2025, 6, 14));
-
 /**
  * Returns the quarter of the year for a given date.
  *
