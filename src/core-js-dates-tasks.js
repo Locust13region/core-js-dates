@@ -30,8 +30,8 @@ function dateToTimestamp(date) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(date) {
-  return date.toLocaleTimeString();
+function getTime(/* date */) {
+  //   return date.toLocaleTimeString();
 }
 getTime(new Date(2023, 5, 1, 8, 20, 55));
 /**
@@ -240,26 +240,26 @@ function getQuarter(...date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
+function getWorkSchedule(period, countWorkDays, countOffDays) {
   const cal = [];
-  //   const start = new Date(period.start.split('-').reverse().join('-'));
-  //   const end = new Date(period.end.split('-').reverse().join('-'));
+  const start = new Date(period.start.split('-').reverse().join('-'));
+  const end = new Date(period.end.split('-').reverse().join('-'));
 
-  //   function dateFormat(date) {
-  //     return date.toLocaleDateString('nl-NL', {
-  //       day: '2-digit',
-  //       month: '2-digit',
-  //       year: 'numeric',
-  //     });
-  //   }
-  //   while (start <= end) {
-  //     for (let i = 0; i < countWorkDays; i += 1) {
-  //       if (start > end) return cal;
-  //       cal.push(dateFormat(new Date(start)));
-  //       start.setDate(start.getDate() + 1);
-  //     }
-  //     start.setDate(start.getDate() + countOffDays);
-  //   }
+  function dateFormat(date) {
+    return date.toLocaleDateString('nl-NL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  }
+  while (start <= end) {
+    for (let i = 0; i < countWorkDays; i += 1) {
+      if (start > end) return cal;
+      cal.push(dateFormat(new Date(start)));
+      start.setDate(start.getDate() + 1);
+    }
+    start.setDate(start.getDate() + countOffDays);
+  }
   return cal;
 }
 /**
